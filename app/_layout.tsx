@@ -1,24 +1,23 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
-
-import { useColorScheme } from '@/hooks/use-color-scheme';
-
-export const unstable_settings = {
-  anchor: '(tabs)',
-};
+import { Stack, usePathname } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+import { Provider } from "react-redux";
+import { store } from "./store";
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-
+  const pathname = usePathname();
+  const hideHeader =
+    pathname.startsWith("/delivery") || pathname.startsWith("/client");
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <Provider store={store}>
+      <StatusBar style={"light"} />
+      <Stack
+        screenOptions={{
+          headerStyle: { backgroundColor: "#4d4de3ff" }, // Header background
+          headerTintColor: "#fff", // Title & back button color
+          headerShadowVisible: false, // Hide shadow under header
+          headerShown: !hideHeader,
+        }}
+      ></Stack>
+    </Provider>
   );
 }
