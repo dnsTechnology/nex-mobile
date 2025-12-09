@@ -1,23 +1,19 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import HeaderBack from "../components/HeaderBack";
 
-export default function DeliveryLayout() {
+export default function DeliveryLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <>
-      <View>
-        <StatusBar style={"light"} backgroundColor='#6200EE' />
-        <View style={styles.header}>
-          <Text style={styles.title}>Agent</Text>
-          <TouchableOpacity
-            style={[styles.actionBtn, { backgroundColor: "#4CAF50" }]}
-            //  onPress={() => setStatus("Delivered")}
-          >
-            <Text style={styles.text}>Switch to Rider</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+      <HeaderBack />
+      <View>{children}</View>
+
+      {/* Bottom Tabs */}
 
       <Tabs
         screenOptions={{
@@ -28,52 +24,52 @@ export default function DeliveryLayout() {
         }}
       >
         <Tabs.Screen
-          name='home'
+          name="home"
           options={{
             title: "Home",
             tabBarIcon: ({ color, size }) => (
-              <MaterialIcons name='home' color={color} size={size} />
+              <MaterialIcons name="home" color={color} size={size} />
             ),
           }}
         />
         <Tabs.Screen
-          name='queue'
+          name="queue"
           options={{
             title: "Queue",
             tabBarIcon: ({ color, size }) => (
-              <MaterialIcons name='inventory' color={color} size={size} />
+              <MaterialIcons name="inventory" color={color} size={size} />
             ),
           }}
         />
         <Tabs.Screen
-          name='scan'
+          name="scan"
           options={{
             title: "Scan",
             tabBarIcon: ({ color, size }) => (
-              <MaterialIcons name='qr-code-scanner' color={color} size={size} />
+              <MaterialIcons name="qr-code-scanner" color={color} size={size} />
             ),
           }}
         />
         <Tabs.Screen
-          name='shipments'
+          name="shipments"
           options={{
             title: "Shipments",
             tabBarIcon: ({ color, size }) => (
-              <MaterialIcons name='local-shipping' color={color} size={size} />
+              <MaterialIcons name="local-shipping" color={color} size={size} />
             ),
           }}
         />
         <Tabs.Screen
-          name='profile'
+          name="profile"
           options={{
             title: "Profile",
             tabBarIcon: ({ color, size }) => (
-              <MaterialIcons name='person' color={color} size={size} />
+              <MaterialIcons name="person" color={color} size={size} />
             ),
           }}
         />
         <Tabs.Screen
-          name='accounting/accounting'
+          name="accounting/accounting"
           options={{
             title: "Accounting",
 
@@ -82,7 +78,7 @@ export default function DeliveryLayout() {
         />
 
         <Tabs.Screen
-          name='components/AgentHome'
+          name="components/AgentHome"
           options={{
             title: "AgentHome",
 
@@ -90,7 +86,7 @@ export default function DeliveryLayout() {
           }}
         />
         <Tabs.Screen
-          name='components/RiderHome'
+          name="components/RiderHome"
           options={{
             title: "RiderHome",
 
@@ -98,9 +94,18 @@ export default function DeliveryLayout() {
           }}
         />
         <Tabs.Screen
-          name='[userid]'
+          name="[userid]"
           options={{
             title: "Edit",
+
+            href: null,
+          }}
+        />
+
+        <Tabs.Screen
+          name="login"
+          options={{
+            title: "Login",
 
             href: null,
           }}

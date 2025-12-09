@@ -38,7 +38,7 @@ export default function Login() {
 
         <TouchableOpacity
           style={styles.roleBlock}
-          onPress={() => router.push("/(auth)/client/login")}
+          onPress={() => router.push("/client/login")}
         >
           <User size={40} color='#03A9F4' />
           <Text style={styles.roleTitle}>Store Login</Text>
@@ -47,7 +47,7 @@ export default function Login() {
 
         <TouchableOpacity
           style={styles.roleBlock}
-          onPress={() => router.push("/(auth)/delivery/login")}
+          onPress={() => router.push("/delivery/login")}
         >
           <Package size={40} color='#FF9800' />
           <Text style={styles.roleTitle}>Delivery</Text>

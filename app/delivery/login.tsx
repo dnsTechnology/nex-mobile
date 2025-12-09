@@ -1,4 +1,3 @@
-import FileInput from "@/app/components/FileInput";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as LocalAuthentication from "expo-local-authentication";
 import { router } from "expo-router";
@@ -15,7 +14,7 @@ import {
   View,
 } from "react-native";
 
-export default function ClientLogin() {
+export default function DeliveryLogin() {
   const [tab, setTab] = useState<"login" | "register">("login");
 
   const handleFingerprintAuth = async () => {
@@ -54,6 +53,18 @@ export default function ClientLogin() {
       behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
       <ScrollView contentContainerStyle={styles.container}>
+        <Text
+          style={{
+            fontSize: 20,
+            fontWeight: "bold",
+            marginBottom: 20,
+            textAlign: "center",
+            color: "#6200EE",
+          }}
+        >
+          <Text style={{ color: "#9f0000ff" }}>Delivery</Text>{" "}
+          <Text>{tab === "login" ? "Login" : "Register"}</Text>
+        </Text>
         {/* Tabs */}
         <View style={styles.tabContainer}>
           <TouchableOpacity
@@ -82,7 +93,7 @@ export default function ClientLogin() {
           </TouchableOpacity>
         </View>
 
-        {/* ------------------------- LOGIN FORM ------------------------- */}
+        {/* LOGIN FORM */}
         {tab === "login" && (
           <View style={styles.form}>
             <TextInput
@@ -97,11 +108,14 @@ export default function ClientLogin() {
             />
 
             <TouchableOpacity
+              onPress={() => {
+                router.push(`/delivery/home`);
+              }}
               style={styles.button}
-              onPress={() => router.push("/client/home")}
             >
               <Text style={styles.buttonText}>Login</Text>
             </TouchableOpacity>
+
             {/* Fingerprint Button */}
             <TouchableOpacity
               style={styles.fingerprintButton}
@@ -112,36 +126,31 @@ export default function ClientLogin() {
                 size={28}
                 color='#6200EE'
               />
+
               <Text style={styles.fingerprintText}>Login with Fingerprint</Text>
             </TouchableOpacity>
           </View>
         )}
 
-        {/* ------------------------- REGISTER FORM ------------------------- */}
+        {/* REGISTER FORM */}
         {tab === "register" && (
           <View style={styles.form}>
-            <TextInput placeholder='Organization`s Name' style={styles.input} />
+            <TextInput placeholder='Full Name' style={styles.input} />
+            <TextInput
+              placeholder='Email'
+              style={styles.input}
+              keyboardType='email-address'
+            />
             <TextInput
               placeholder='Mobile Number'
               style={styles.input}
               keyboardType='phone-pad'
             />
             <TextInput
-              placeholder='Email'
-              style={styles.input}
-              keyboardType='email-address'
-            />
-            <View style={{ marginTop: 20 }}>
-              <FileInput />
-            </View>
-            <TextInput placeholder='Address' style={styles.input} />
-
-            <TextInput
               placeholder='Password'
               style={styles.input}
               secureTextEntry
             />
-
             <TextInput
               placeholder='Confirm Password'
               style={styles.input}
@@ -200,15 +209,16 @@ const styles = StyleSheet.create({
   form: {
     width: "100%",
     gap: 15,
+    alignItems: "center",
   },
 
   input: {
     backgroundColor: "#fff",
-    borderRadius: 6,
     padding: 14,
     fontSize: 15,
     borderColor: "#ddd",
     borderWidth: 1,
+    width: "100%",
   },
 
   button: {
@@ -217,6 +227,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     marginTop: 10,
     alignItems: "center",
+    width: "100%",
   },
 
   buttonText: {
@@ -224,19 +235,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 16,
   },
+
   fingerprintButton: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
-    width: "70%",
-    margin: "auto",
     marginTop: 15,
     paddingVertical: 10,
     paddingHorizontal: 15,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: "#6200EE",
-    gap: 10,
   },
 
   fingerprintText: {

@@ -9,19 +9,25 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { useAuthClient } from "../contexts/AuthContextClient";
 const userid = "390239092";
 
 export default function Profile() {
+  const { logout } = useAuthClient();
   const [profileImage, setProfileImage] = useState(
     "https://via.placeholder.com/150"
   );
 
   const handleEditProfile = () => {
-    router.push(`/delivery/${userid}`);
+    router.push(`/client/${userid}`);
   };
 
-  const handleLogout = () => {
-    router.push("/(auth)/delivery/login");
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const menuItems = [
@@ -32,8 +38,13 @@ export default function Profile() {
     },
     {
       title: "Accounting",
-      icon: "money-bill",
+      icon: "book",
       href: "/client/accounting/accounting",
+    },
+    {
+      title: "Payments",
+      icon: "money-check-alt",
+      href: "/client/payments",
     },
 
     { title: "Settings", icon: "cog", href: "/client/settings" },

@@ -1,4 +1,5 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { router } from "expo-router";
 import { useState } from "react";
 import {
   ScrollView,
@@ -97,7 +98,14 @@ export default function AccountingByIdAndDate() {
               <Text style={styles.value}>{item.shipping}</Text>
             </View>
 
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity
+              onPress={() =>
+                router.push(
+                  `/client/accounting/expand/${838383838}/?date=${new Date().toLocaleString()}`
+                )
+              }
+              style={styles.button}
+            >
               <Text style={styles.buttonText}>View Details</Text>
             </TouchableOpacity>
           </View>

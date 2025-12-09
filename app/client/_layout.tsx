@@ -1,18 +1,18 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
+import HeaderBack from "../components/HeaderBack";
+import { AuthProvider } from "../contexts/AuthContextClient";
 
-export default function StoreOwnerLayout() {
+export default function StoreOwnerLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <>
-      {/* Status Bar */}
-      <View>
-        <StatusBar style={"light"} backgroundColor='#6200EE' />
-        <View style={styles.header}>
-          <Text style={styles.title}>Store</Text>
-        </View>
-      </View>
+    <AuthProvider>
+      <HeaderBack />
+      {children}
 
       {/* Bottom Tabs */}
       <Tabs
@@ -21,6 +21,9 @@ export default function StoreOwnerLayout() {
           tabBarInactiveTintColor: "#888",
           headerShown: false,
           tabBarStyle: { height: 80, paddingBottom: 5, paddingTop: 5 },
+          headerLeft: () => (
+            <MaterialIcons name='menu' size={24} color='#ffffffff' />
+          ),
         }}
       >
         <Tabs.Screen
@@ -137,8 +140,73 @@ export default function StoreOwnerLayout() {
             href: null,
           }}
         />
+        <Tabs.Screen
+          name='accounting/expand/[dateid]'
+          options={{
+            title: "Accounting Expand",
+            href: null,
+          }}
+        />
+
+        <Tabs.Screen
+          name='payments'
+          options={{
+            title: "Payments",
+
+            href: null,
+          }}
+        />
+        {/* paymentdetails page */}
+        <Tabs.Screen
+          name='paymentdetails/[id]'
+          options={{
+            title: "PaymentDetails",
+
+            href: null,
+          }}
+        />
+
+        {/* edit page */}
+        <Tabs.Screen
+          name='[userid]'
+          options={{
+            title: "EditProfile",
+
+            href: null,
+          }}
+        />
+
+        {/* shipment details page */}
+        <Tabs.Screen
+          name='shipmentdetails/[id]'
+          options={{
+            title: "EditProfile",
+
+            href: null,
+          }}
+        />
+
+        {/* shipment comment */}
+        <Tabs.Screen
+          name='comment/[id]'
+          options={{
+            title: "Comment",
+
+            href: null,
+          }}
+        />
+
+        {/* login */}
+        <Tabs.Screen
+          name='login'
+          options={{
+            title: "login",
+
+            href: null,
+          }}
+        />
       </Tabs>
-    </>
+    </AuthProvider>
   );
 }
 
@@ -158,5 +226,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 6,
+  },
+  backText: { color: "#eae3e3ff", fontWeight: "bold" },
+  backBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
   },
 });

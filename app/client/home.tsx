@@ -1,4 +1,5 @@
 import { router } from "expo-router";
+import { useEffect } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -6,8 +7,17 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { useDashboardMutation } from "../api/clientApi";
 
 export default function Home() {
+  const [dashboard, { isLoading, error }] = useDashboardMutation();
+  useEffect(() => {
+    async function getData() {
+      const res = await dashboard({});
+      console.log(res);
+    }
+    getData();
+  }, []);
   const stats = [
     { label: "All", value: 335 },
     { label: "Active", value: 6 },
@@ -52,6 +62,7 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: "#F9FAFB",
   },
+
   title: {
     fontSize: 24,
     fontWeight: "bold",
@@ -78,13 +89,13 @@ const styles = StyleSheet.create({
     width: "48%",
     backgroundColor: "#FFFFFF",
     padding: 16,
-    borderRadius: 12,
+    borderRadius: 3,
     marginBottom: 12,
-    shadowColor: "#000",
-    shadowOpacity: 0.05,
-    shadowRadius: 4,
-    elevation: 3,
+    shadowColor: "#837a7aff",
+    shadowOpacity: 0.01,
+    elevation: 1,
   },
+
   cardValue: {
     fontSize: 20,
     fontWeight: "bold",
