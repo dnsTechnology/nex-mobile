@@ -1,7 +1,7 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { useLocalSearchParams } from "expo-router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Image,
   ScrollView,
@@ -11,24 +11,45 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { useAuthClient } from "../contexts/AuthContextClient";
 
 export default function EditUserDetails() {
+  const { user } = useAuthClient();
   const params = useLocalSearchParams();
   const id = params.id;
 
   // Dummy state for all fields
-  const [name, setName] = useState("John Doe");
-  const [email, setEmail] = useState("john@example.com");
-  const [mobile, setMobile] = useState("9876543210");
-  const [telephone, setTelephone] = useState("01-123456");
-  const [address, setAddress] = useState("Kathmandu, Nepal");
-  const [country, setCountry] = useState("Nepal");
-  const [province, setProvince] = useState("Province 1");
-  const [district, setDistrict] = useState("Kathmandu");
-  const [landmark, setLandmark] = useState("Near City Hall");
-  const [postalCode, setPostalCode] = useState("44600");
-  const [panNumber, setPanNumber] = useState("PAN123456");
-  const [profilePic, setProfilePic] = useState<string | null>(null);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [mobile, setMobile] = useState("");
+  const [telephone, setTelephone] = useState("");
+  const [address, setAddress] = useState("");
+  const [country, setCountry] = useState("");
+  const [province, setProvince] = useState("");
+  const [district, setDistrict] = useState("");
+  const [landmark, setLandmark] = useState("");
+  const [postalCode, setPostalCode] = useState("");
+  const [panNumber, setPanNumber] = useState("");
+  const [profilePic, setProfilePic] = useState<string | null>(
+    "https://placehold.co/400",
+  );
+
+  useEffect(() => {
+    if (user) {
+      setName(user.name || "");
+      setEmail(user.email || "");
+      setMobile(user.mobile || "");
+      setTelephone(user.telephone || "");
+      setAddress(user.address || "");
+      setCountry(user.country || "");
+      setProvince(user.province || "");
+      setDistrict(user.district || "");
+      setLandmark(user.landmark || "");
+      setPostalCode(user.postalCode || "");
+      setPanNumber(user.panNumber || "");
+      setProfilePic(user.profile || "https://placehold.co/400");
+    }
+  }, [user]);
 
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -44,21 +65,6 @@ export default function EditUserDetails() {
   };
 
   const handleSave = () => {
-    // TODO: implement API call to save updated data
-    console.log({
-      name,
-      email,
-      mobile,
-      telephone,
-      address,
-      country,
-      province,
-      district,
-      landmark,
-      postalCode,
-      panNumber,
-      profilePic,
-    });
     alert("Profile updated!");
   };
 
@@ -69,7 +75,7 @@ export default function EditUserDetails() {
     placeholder?: string,
     keyboardType?: "default" | "email-address" | "phone-pad",
     multiline?: boolean,
-    height?: number
+    height?: number,
   ) => (
     <View style={styles.inputGroup}>
       <Text style={styles.label}>{label}</Text>
@@ -84,6 +90,14 @@ export default function EditUserDetails() {
     </View>
   );
 
+  if (!user) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
+
   return (
     <ScrollView
       style={styles.container}
@@ -96,7 +110,7 @@ export default function EditUserDetails() {
         {profilePic ? (
           <Image source={{ uri: profilePic }} style={styles.profilePic} />
         ) : (
-          <MaterialIcons name='person' size={50} color='#888' />
+          <MaterialIcons name="person" size={50} color="#888" />
         )}
         <Text style={styles.changeText}>Change Photo</Text>
       </TouchableOpacity>
@@ -108,7 +122,7 @@ export default function EditUserDetails() {
         email,
         setEmail,
         "Enter your email",
-        "email-address"
+        "email-address",
       )}
       {renderInput("Mobile", mobile, setMobile, "Enter mobile", "phone-pad")}
       {renderInput("Telephone", telephone, setTelephone)}
@@ -118,7 +132,7 @@ export default function EditUserDetails() {
         setAddress,
         "Enter address",
         "default",
-        true
+        true,
       )}
       {renderInput("Country", country, setCountry)}
       {renderInput("Province", province, setProvince)}
@@ -129,7 +143,7 @@ export default function EditUserDetails() {
         postalCode,
         setPostalCode,
         "Enter postal code",
-        "default"
+        "default",
       )}
       {renderInput("PAN Number", panNumber, setPanNumber)}
 

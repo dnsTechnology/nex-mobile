@@ -10,16 +10,12 @@ import {
   View,
 } from "react-native";
 import { useAuthClient } from "../contexts/AuthContextClient";
-const userid = "390239092";
 
 export default function Profile() {
-  const { logout } = useAuthClient();
-  const [profileImage, setProfileImage] = useState(
-    "https://via.placeholder.com/150"
-  );
+  const { logout, user } = useAuthClient();
 
   const handleEditProfile = () => {
-    router.push(`/client/${userid}`);
+    router.push(`/client/${user?._id}`);
   };
 
   const handleLogout = async () => {
@@ -55,18 +51,21 @@ export default function Profile() {
     <ScrollView style={styles.container}>
       {/* Profile Header */}
       <View style={styles.header}>
-        <Image source={{ uri: profileImage }} style={styles.avatar} />
-        <Text style={styles.name}>John Doe</Text>
-        <Text style={styles.email}>johndoe@example.com</Text>
+        <Image
+          source={{ uri: user?.profile || "https://placehold.co/200" }}
+          style={styles.avatar}
+        />
+        <Text style={styles.name}>{user?.name || "John Doe"}</Text>
+        <Text style={styles.email}>{user?.email || "johndoe@example.com"}</Text>
 
         <View style={styles.actions}>
           <TouchableOpacity style={styles.editBtn} onPress={handleEditProfile}>
-            <MaterialIcons name='edit' size={20} color='#fff' />
+            <MaterialIcons name="edit" size={20} color="#fff" />
             <Text style={styles.editText}>Edit Profile</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.logoutBtn} onPress={handleLogout}>
-            <MaterialIcons name='logout' size={20} color='#fff' />
+            <MaterialIcons name="logout" size={20} color="#fff" />
             <Text style={styles.logoutText}>Logout</Text>
           </TouchableOpacity>
         </View>
@@ -82,9 +81,9 @@ export default function Profile() {
             }}
             style={styles.menuItem}
           >
-            <FontAwesome5 name={item.icon as any} size={20} color='#6200EE' />
+            <FontAwesome5 name={item.icon as any} size={20} color="#6200EE" />
             <Text style={styles.menuText}>{item.title}</Text>
-            <MaterialIcons name='keyboard-arrow-right' size={24} color='#888' />
+            <MaterialIcons name="keyboard-arrow-right" size={24} color="#888" />
           </TouchableOpacity>
         ))}
       </View>

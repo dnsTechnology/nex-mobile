@@ -93,7 +93,37 @@ export const clientApi = baseApi.injectEndpoints({
         body: {},
       }),
     }),
+    updateProfile: builder.mutation({
+      query: (data) => ({
+        url: "/nex/client/updateClientProfile",
+        method: "POST",
+        body: data,
+      }),
+    }),
+    createShipment: builder.mutation({
+      query: (data) => {
+        return {
+          url: "/nex/client/createshipment",
+          method: "POST",
+          body: data,
+        };
+      },
+    }),
+    getallLandmarks: builder.mutation({
+      query: (data) => {
+        return {
+          url: `/nex/client/getlandmarks?limit=${data?.limit}&search=${data?.search}`,
+          method: "POST",
+          body: {},
+        };
+      },
+    }),
   }),
 });
 
-export const { useDashboardMutation } = clientApi;
+export const {
+  useDashboardMutation,
+  useUpdateProfileMutation,
+  useCreateShipmentMutation,
+  useGetallLandmarksMutation,
+} = clientApi;
